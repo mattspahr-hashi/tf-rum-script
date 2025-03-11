@@ -1,13 +1,24 @@
 # tf-rum-script
 
-### Usage: Pass in a Terraform State file through a pipe
+### Usage
 
-```cat terraform.tfstate | count.sh```
+1. Ensure you have ```jq``` installed on your system. You can install it with:
+   ```
+   sudo apt install jq  # Debian/Ubuntu
+   brew install jq      # macOS
+   ```
+2. Download state file and run the script
+   ```
+   terraform state pull | ./count_resources.sh
+   ```
+   
+### Script Breakdown
+- Exracts all managed resources (```"mode": "managed"```)
+- Filters out ```terraform_data``` and ```null_resources``` types.
+- Flattens instances of resources
+- Outputs the total count of valid resources
 
-### Resources Under Management - HCP Terraform 
+### Example Output
+```42```
 
-For each resource in the TF State file:
-- Only count managed resources (i.e. not data sources)
-- Explicitly ignore null resources (terraform_data and null_resource)
-- Count all instances of a resource (for those resources defined with count or for_each)
-- Then flatten the whole thing into a list and count the number of items
+Output will be the number of managed resources. 
