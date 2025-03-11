@@ -7,9 +7,13 @@
    sudo apt install jq  # Debian/Ubuntu
    brew install jq      # macOS
    ```
-2. Download state file and run the script
+2. Download state file:
    ```
-   terraform state pull | ./count_resources.sh
+   terraform state pull > state.json
+   ```
+3. Run the script:
+   ```
+   ./count.sh < state.json
    ```
    
 ### Script Breakdown
